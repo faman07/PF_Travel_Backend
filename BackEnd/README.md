@@ -2,9 +2,11 @@ Para levantar servidor seguir los siguientes pasos:
 
 1. npm install
 
-Para instalar las dependencias
+Para instalar las dependencias. Luego crear una base de Datos de PostgreSQL y crear un archivo .env con la variable de DATABASE_URL con la ruta y los datos de la base de datos creada
 
-2. npx primas migrate dev --name init
+formato `postgresql://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/{DB_NAME}`
+
+2. npx prisma migrate dev --name init
 
 Crea la base de datos nueva. Si arroja un error de conexion es porque falla la url de la base de datos
 

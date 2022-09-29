@@ -27,7 +27,7 @@ const prisma = new PrismaClient()
 //         numberCard: '5632-569856-586',
 //     },
 // ]
-//  carga de datos de Hoteles 
+// //  carga de datos de Hoteles 
 
 // const hotelData: Prisma.hotelCreateInput[] = [
 //     {
@@ -42,14 +42,14 @@ const prisma = new PrismaClient()
 //     },
 // ]
 
-// carga de datos de servicios
+// // carga de datos de servicios
 // const servicesData: Prisma.servicesCreateInput[] = [
 //     {
 //         service: 'desayuno',
 //     }
 // ]
 
-// carga de datos de company
+// // carga de datos de company
 // const companyData: Prisma.companyCreateInput[] = [
 //     {
 //         name: 'William',
@@ -57,7 +57,7 @@ const prisma = new PrismaClient()
 //     },
 // ]
 
-// carga de datos de accommodations
+// // carga de datos de accommodations
 // const accommodationsonsData: Prisma.accommodationCreateInput[] = [
 //     {        
 //         hotelId: 0,
@@ -69,7 +69,7 @@ const prisma = new PrismaClient()
 //     },
 // ]
 
-// carga de datos de excursions
+// // carga de datos de excursions
 // const excursionsData: Prisma.excursionCreateInput[] = [
 //     {
 //         name: 'William',
