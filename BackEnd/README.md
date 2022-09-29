@@ -14,6 +14,10 @@ Crea la base de datos nueva. Si arroja un error de conexion es porque falla la u
 
 Para iniciar el servidor y empezar a hacer requests en el puerto default 5000
 
+4. npx prisma db seed
+
+Para poblar con la data mock
+
 Otros comandos utiles:
 
 - npx prisma migrate reset
