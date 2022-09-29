@@ -1,84 +1,84 @@
 import express from 'express'
 import { PrismaClient } from '@prisma/client'
-//const routes = require('./routes/index.ts');
-const port = 5000
+import {router} from './routes/index';
+const port = 5001
 
 const prisma = new PrismaClient()
 const app = express()
 
 // middlewares
 app.use(express.json())
-//app.use('/', routes);
+app.use('/', router);
 
 // GET Routes
 
-app.get('/Customer', async (req, res) => {
-  try {
-    const costumers = await prisma.customer.findMany()
-    res.status(200).json(costumers)
-  } catch (e) {
-    res.status(400).json(e)    
-  }  
-})
+// app.get('/Customer', async (req, res) => {
+//   try {
+//     const costumers = await prisma.customer.findMany()
+//     res.status(200).json(costumers)
+//   } catch (e) {
+//     res.status(400).json(e)    
+//   }  
+// })
 
-app.get('/Hotel', async (req, res) => {
-  try {
-    const hotels = await prisma.hotel.findMany()
-    res.status(200).json(hotels)
-  } catch (e) {
-    res.status(400).json(e) 
-  }
-})
+// app.get('/Hotel', async (req, res) => {
+//   try {
+//     const hotels = await prisma.hotel.findMany()
+//     res.status(200).json(hotels)
+//   } catch (e) {
+//     res.status(400).json(e) 
+//   }
+// })
 
-app.get('/Services', async (req, res) => {
-  try {
-    const services = await prisma.services.findMany()
-    res.status(200).json(services)
-  }  catch (e) {
-    res.status(400).json(e)
-  }
-})
+// app.get('/Services', async (req, res) => {
+//   try {
+//     const services = await prisma.services.findMany()
+//     res.status(200).json(services)
+//   }  catch (e) {
+//     res.status(400).json(e)
+//   }
+// })
 
-app.get('/Company', async (req, res) => {
-  try {
-    const companies = await prisma.company.findMany()
-    res.status(200).json(companies)
-  } catch (e) {
-    res.status(400).json(e)
-  }
-})
+// app.get('/Company', async (req, res) => {
+//   try {
+//     const companies = await prisma.company.findMany()
+//     res.status(200).json(companies)
+//   } catch (e) {
+//     res.status(400).json(e)
+//   }
+// })
 
-app.get('/Ticket', async (req, res) => {
-  try {
-    res.status(200).json("El Modulo /Ticket se encuentra en desarrollo")
-  } catch (e) {
-    res.status(400).json(e)
-  }
-})
+// app.get('/Ticket', async (req, res) => {
+//   try {
+//     res.status(200).json("El Modulo /Ticket se encuentra en desarrollo")
+//   } catch (e) {
+//     res.status(400).json(e)
+//   }
+// })
 
-app.get('/TouristPackage', async (req, res) => {
-  try {
-    res.status(200).json("El Modulo /TouristPackage se encuentra en desarrollo")
-  } catch (e) {
-    res.status(400).json(e)
-  }
-})
+// app.get('/TouristPackage', async (req, res) => {
+//   try {
+//     res.status(200).json("El Modulo /TouristPackage se encuentra en desarrollo")
+//   } catch (e) {
+//     res.status(400).json(e)
+//   }
+// })
 
-app.get('/Excursion', async (req, res) => {
-  try {
-    res.status(200).json("El Modulo /Excursion se encuentra en desarrollo")
-  } catch (e) {
-    res.status(400).json(e)
-  }
-})
+// app.get('/Excursion', async (req, res) => {
+//   try {
+//     res.status(200).json("El Modulo /Excursion se encuentra en desarrollo")
+//   } catch (e) {
+//     res.status(400).json(e)
+//   }
+// })
 
-app.get('/Accommodations', async (req, res) => {
-  try {
-    res.status(200).json("El Modulo /Accommodations se encuentra en desarrollo")
-  } catch (e) {
-    res.status(400).json(e)
-  }
-})
+// app.get('/Accommodations', async (req, res) => {
+//   try {
+//     res.status(200).json("El Modulo /Accommodations se encuentra en desarrollo")
+//   } catch (e) {
+//     res.status(400).json(e)
+//   }
+// })
 
 // Update Routes
 

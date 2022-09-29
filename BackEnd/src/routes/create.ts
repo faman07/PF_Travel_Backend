@@ -5,8 +5,33 @@ const prisma = new PrismaClient()
 
 const router = Router();
 
+router.post(`/signup`, async (req, res) => {
+  const {email, pass } = req.body
+  try {
+    const validation = await prisma.customer.findUnique({
+      where: {
+        email: email,
+        }})
+      if (validation?.numberCard == pass) {
+        res.status(200).json("Acceso Satisfactorio")
+      } else {
+        res.status(400).json("Acceso Denegado")
+      }
+  } catch (e) {
+    res.status(400).json(e)
+  }
+})
+
+
 router.post('/CreateCustomer', async (req, res) => {
+    const {name,
+          identification, 
+          birthday, 
+          phoneNumber, 
+          email, 
+          numberCard} = req.body
     try {
+      
       res.status(200).json("El Modulo /CreateCustomer se encuentra en desarrollo")
     } catch (e) {
       res.status(400).json(e)
@@ -46,4 +71,4 @@ router.post('/CreateCustomer', async (req, res) => {
   })
 
 
-module.exports = router;
+export {router};
