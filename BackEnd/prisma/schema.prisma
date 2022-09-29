@@ -7,7 +7,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")     
+  url      = env("DATABASE_URL")
 }
 
 model familyPackage {
@@ -27,17 +27,16 @@ model touristPackage {
   customerId          String
   ticket              ticket          @relation(fields: [ticketId], references: [id])
   ticketId            String
-  accommodation       accommodation   @relation(fields: [accommodationId] , references: [id])
-  accommodationId     String
-  excursions           excursionsOnTouristPackage[] 
+  //accommodation       accommodation   @relation(fields: [accommodationId] , references: [id])
+  //accommodationId     String
+  excursions          excursionsOnTouristPackage[] 
 }
 
 model customer {
   id                  String              @id @default(uuid())
-  name                String
-  //lastName            String
+  name                String  
   identification      String    
-  birthday            DateTime  
+  birthday            String 
   phoneNumber         String  
   email               String              @unique
   numberCard          String              @unique 
@@ -47,7 +46,6 @@ model customer {
 model ticket {
   id                  String              @id @default(uuid())
   fligthId            String?
-  //company             String    
   class               String  
   chair               String  
   cost                Decimal             @db.Money()
@@ -64,8 +62,8 @@ model accommodation {
   class           Int
   cost            Decimal           @db.Money()
   services        Int
-  tPackage        touristPackage[]
-  hotel           hotel             @relation(fields:[hotelId], references: [id])
+  //tPackage        touristPackage[]
+  //hotel           hotel             @relation(fields:[hotelId], references: [id])
   hotelId         String
 }
 
@@ -73,8 +71,8 @@ model excursion {
   id              String            @id @default(uuid())
   name            String?
   address         String  
-  startDate       DateTime  
-  endDate         DateTime
+  startDate       String 
+  endDate         String
   type            String
   cost            Decimal           @db.Money() 
   tPackages       excursionsOnTouristPackage[] 
@@ -89,7 +87,6 @@ model excursionsOnTouristPackage {
   @@id([excursionId, tPackageId])
 }
 
-
 model company {
   id              String    @id @default(uuid())
   name            String?
@@ -99,15 +96,15 @@ model company {
 
 model hotel {
   id              String    @id @default(uuid())
-  name            String?
+  name            String
   phoneNumber     String  
   address         String  
   cityCountry     String
-  email           String    @unique
-  description     String  
-  image           String    @db.Text
-  services        Int
-  accommodation   accommodation[]
+  email           String    //@unique
+  description     String    //@db.Text
+  image           String    //@db.Text
+  services        Int?
+  //accommodation   accommodation[]
 }
 
 model services {
