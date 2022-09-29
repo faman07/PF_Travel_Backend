@@ -1,10 +1,12 @@
 import { Router } from 'express';
-const  create = require ('./create')
-const  update= require ('./update')
-const  info= require ('./info')
+import {router as create} from './create';
+import {router as update} from './update';
+import {router as info} from './info';
 
 const router = Router();
 
 router.use('/info', info)
 router.use('/update', update);
 router.use('/create', create);
+
+export {router}
