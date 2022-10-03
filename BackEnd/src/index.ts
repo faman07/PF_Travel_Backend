@@ -1,5 +1,6 @@
 import express from 'express'
 import { PrismaClient } from '@prisma/client'
+import getTickets from './services/tickets'
 //const routes = require('./routes/index.ts');
 const port = 5000
 
@@ -48,13 +49,16 @@ app.get('/Company', async (req, res) => {
   }
 })
 
+  
 app.get('/Ticket', async (req, res) => {
   try {
-    res.status(200).json("El Modulo /Ticket se encuentra en desarrollo")
+    let ticket = await getTickets(req.query)
+    res.status(200).json(ticket)
   } catch (e) {
     res.status(400).json(e)
   }
 })
+  
 
 app.get('/TouristPackage', async (req, res) => {
   try {
