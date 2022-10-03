@@ -1,10 +1,22 @@
-import { Router } from 'express';
-const  create = require ('./create')
-const  update= require ('./update')
-const  info= require ('./info')
+import { Router } from 'express'
+import {customerRouter} from './customer'
+import {hotelRouter} from './hotel'
+import {ticketRouter} from './ticket'
+import {excursionRouter} from './excursion'
+import { packageRouter } from './package'
 
-const router = Router();
+const indexRouter = Router()
 
-router.use('/info', info)
-router.use('/update', update);
-router.use('/create', create);
+indexRouter.use('/', (req, res, next) => {
+    //res.send("estamos en el index")
+    console.log("Estamos en el /")
+    next()
+})
+indexRouter.use('/user', customerRouter)
+indexRouter.use('/hotel', hotelRouter)
+indexRouter.use('/excursion', excursionRouter)
+indexRouter.use('/ticket', ticketRouter)
+indexRouter.use('/package', packageRouter)
+
+
+export {indexRouter}
