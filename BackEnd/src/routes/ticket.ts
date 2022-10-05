@@ -8,15 +8,15 @@ const prisma = new PrismaClient()
 
 const ticketRouter:Router = Router();
 
-ticketRouter.get('/Ticket', async (req, res) => {
+ticketRouter.get('/getTicket', async (req, res) => {
   try {
-    res.status(200).json(getTickets(req.query))
+    res.status(200).json(await getTickets(req.query))
   } catch (e) {
     res.status(400).json(e)
   }
 })
 
-ticketRouter.post('/SaveTicket', async (req, res) => {
+ticketRouter.post('/saveTicket', async (req, res) => {
     try {
       res.status(200).json("El Modulo /CreateTicket se encuentra en desarrollo")
     } catch (e) {
@@ -24,7 +24,7 @@ ticketRouter.post('/SaveTicket', async (req, res) => {
     }
   })
 
-  ticketRouter.post('/UpdateTicket', async (req, res) => {
+  ticketRouter.post('/updateTicket', async (req, res) => {
     try {
       res.status(200).json("El Modulo /UpdateTicket se encuentra en desarrollo")
     } catch (e) {
@@ -32,9 +32,9 @@ ticketRouter.post('/SaveTicket', async (req, res) => {
     }
   })
 
-  ticketRouter.get('/DeleteTicket', async (req, res) => {
+  ticketRouter.post('/deleteTicket', async (req, res) => {
     try {
-      res.status(200).json(getTickets(req.query))
+      res.status(200).json("El Modulo /DeleteTicket se encuentra en desarrollo")
     } catch (e) {
       res.status(400).json(e)
     }
@@ -44,3 +44,4 @@ ticketRouter.post('/SaveTicket', async (req, res) => {
 
 
 export {ticketRouter}
+

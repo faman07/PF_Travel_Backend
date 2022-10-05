@@ -7,12 +7,10 @@ import { packageRouter } from './package'
 
 const indexRouter = Router()
 
-indexRouter.use('/', (req, res, next) => {
-    //res.send("estamos en el index")
-    console.log("Estamos en el /")
-    next()
+indexRouter.route('/').get((req,res)=>{
+    res.send("Holiwis")
 })
-indexRouter.use('/user', customerRouter)
+indexRouter.use('/user',customerRouter)
 indexRouter.use('/hotel', hotelRouter)
 indexRouter.use('/excursion', excursionRouter)
 indexRouter.use('/ticket', ticketRouter)

@@ -4,6 +4,8 @@ import {indexRouter} from './routes/index';
 import passport from 'passport'
 //import { loginRouter } from "./routes/login"
 import './middlewares/google'
+import { relative } from 'path';
+import { rmSync } from 'fs';
 const port = 5000
 
 const prisma: PrismaClient = new PrismaClient()
@@ -21,13 +23,8 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use('/auth', passport.authenticate("auth-google", {
-  scope: ["https://www.googleapis.com/auth/userinfo.email",
-          "https://www.googleapis.com/auth/userinfo.profile"],
-  session: false,
-}), indexRouter)
+app.use(indexRouter)
 
-app.use('/authL', indexRouter)
 
 //app.use('/', router)
 
