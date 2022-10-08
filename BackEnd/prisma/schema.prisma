@@ -10,116 +10,193 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model familyPackage {
-  id        String            @id @default(uuid())
-  billingId String            @default(uuid())
-  package   String            @default(uuid())
-  cost      Decimal           @db.Money()
-  tPackage  touristPackage[]                            // relation one-to-many with touristPackage
+
+// ------------------- MODELS USERS
+
+model admin {
+  id              Int               @id @default(autoincrement())
+  name            String
+  key             String  
 }
 
-model touristPackage {
-  id                  String          @id @default(uuid())
-  cost                Decimal         @db.Money()
-  familyP             familyPackage   @relation(fields:[familyPId], references: [id])  
-  familyPId           String
-  customer            customer        @relation(fields:[customerId] , references: [id])
-  customerId          String
-  ticket              ticket          @relation(fields: [ticketId], references: [id])
-  ticketId            String
-  //accommodation       accommodation   @relation(fields: [accommodationId] , references: [id])
-  //accommodationId     String
-  excursions          excursionsOnTouristPackage[] 
+// -------------------- MODELS CUSTOMERS
+
+enum Role {
+  USER
+  GUEST
 }
 
 model customer {
-  id                  String              @id @default(uuid())
-  name                String  
-  identification      String    
-  birthday            String 
-  phoneNumber         String  
-  email               String              @unique
-  numberCard          String              @unique 
-  tPackage            touristPackage[] 
+  id              String            @id @default(uuid())
+  name            String
+  lastName        String 
+  userName        String            @unique
+  identification  String            @unique
+  address         String?           @default("")
+  birthday        DateTime          @default(now())        
+  phoneNumber     String
+  email           String            @unique          
+  numberCard      String?           @default("")
+  pass            String?
+  zipCode         String?
+  userType        Role               @default(USER)
+  package         touristPackage[]
+  //userType        userType         @relation(fields: [userTypeId], references: [id])
+  //userTypeId      Int
 }
 
+// --------------------MODELS HOTELS
+
+model hotel {
+  id              String    @id @default(uuid())
+  name            String    
+  phoneNumber     String  
+  address         String  
+  city            String
+  country         String
+  email           String    @unique
+  description     String 
+  image           String    @db.Text
+  services        Int?
+  stock           Int?      @default(0)
+  accommodation   accommodation[]
+}
+
+model accommodation {
+  id              String    @id @default(uuid())
+  location        String  
+  description     String    @db.Text  
+  class           Int
+  cost            Decimal   @db.Money()
+  service         servicesAccommodation[]
+  hotel           hotel     @relation (fields: [hotelId], references: [id])
+  hotelId         String
+  package         touristPackage[]
+}
+
+model service {
+  id              Int       @id @default(autoincrement())
+  service         String
+  accommodation   servicesAccommodation[]
+}
+
+model servicesAccommodation {
+  id              String          @id @default(uuid())
+  service         service         @relation (fields: [serviceId], references: [id])
+  accommodation   accommodation   @relation (fields: [accommodationId], references: [id])
+  serviceId       Int
+  accommodationId String
+}
+
+// --------------------MODELS EXCURSIONS
+
+model excursion {
+  id              String            @id @default(uuid())
+  name            String?
+  startDate       String 
+  endDate         String
+  type            String
+  cost            Decimal           @db.Money() 
+  activity        activityOnExcursion[]
+}
+
+model activityType {
+  id              Int               @id @default(autoincrement())
+  name            String            @unique
+  activity        activity[]
+}
+
+model activity {
+  id              String            @id @default(uuid())
+  name            String
+  latitude        String 
+  longitude       String
+  descripton      String
+  stock           Int?
+  minimunDuration String
+  rating          Decimal
+  cost            Decimal           @db.Money()
+  country         String
+  city            String
+  pictures        activityPictures[]
+  type            activityType      @relation(fields: [typeId], references: [id])
+  typeId          Int              
+  excursion       activityOnExcursion[]
+}
+
+model activityPictures {
+  id              String            @id @default(uuid()) 
+  url             String            @db.Text       
+  activity        activity          @relation (fields: [activityId], references: [id])
+  activityId      String  
+}
+
+
+model activityOnExcursion {
+  id              String            @default(uuid())
+  activity        activity          @relation (fields: [activityId], references: [id])
+  activityId      String            
+  excursion       excursion         @relation (fields: [excursionId], references: [id])
+  excursionId     String            
+  @@id([activityId, excursionId])
+}
+// -------------------- MODELS TICKETS
+
+// La relacion entre tiket y company es de uno a muchos un ticket solo puede pertenecr a una compania pero la compania puede tener muchos tickets
 model ticket {
   id                  String              @id @default(uuid())
   fligthId            String?
   class               String  
   chair               String  
+  date                String
   cost                Decimal             @db.Money()
-  tPackage            touristPackage[]
-  company             company             @relation(fields: [companyId], references: [id])
-  companyId           String
-}
-
-model accommodation {
-  id              String            @id @default(uuid())
-  //hotelId         Int?
-  location        String  
-  description     String            @db.Text  
-  class           Int
-  cost            Decimal           @db.Money()
-  services        Int
-  //tPackage        touristPackage[]
-  //hotel           hotel             @relation(fields:[hotelId], references: [id])
-  hotelId         String
-}
-
-model excursion {
-  id              String            @id @default(uuid())
-  name            String?
-  address         String  
-  startDate       String 
-  endDate         String
-  type            String
-  cost            Decimal           @db.Money() 
-  tPackages       excursionsOnTouristPackage[] 
-}
-
-model excursionsOnTouristPackage {
-  excursion       excursion           @relation(fields: [excursionId], references: [id])
-  excursionId     String
-  tPackage        touristPackage      @relation(fields: [tPackageId], references: [id])
-  tPackageId      String
-
-  @@id([excursionId, tPackageId])
+  company             company             @relation(fields: [companyId], references: [id])  
+  companyId           Int 
+  package             touristPackage[]                 
 }
 
 model company {
-  id              String    @id @default(uuid())
-  name            String?
-  contact         String   
-  ticket          ticket[]
+  id                  Int                 @id @default(autoincrement())
+  name                String?
+  contact             String   
+  ticket              ticket[]   
 }
 
-model hotel {
-  id              String    @id @default(uuid())
-  name            String
-  phoneNumber     String  
-  address         String  
-  cityCountry     String
-  email           String    //@unique
-  description     String    //@db.Text
-  image           String    //@db.Text
-  services        Int?
-  //accommodation   accommodation[]
+// -------------------- MODELS COMPRAS
+// la relacion de compras es:
+// purchase con package Id es de uno a muchos un pago puede pertenecer a cualquier paquete
+
+model purchase {
+  id                  String              @id @default(uuid())
+  payId               String
+  payCost             Decimal             @db.Money()
+  package             touristPackage[]      
 }
 
-model services {
-  id              Int       @id @default(autoincrement())
-  service         String
+
+// ---------------------MODELS PACKAGE
+
+model touristPackage {
+  id                  String               @id @default(uuid())
+  customerId          String
+  ticketId            String
+  accommodationId     String
+  excursionId         String
+  cost                Decimal              @db.Money()
+  customer            customer             @relation(fields: [customerId], references: [id]) 
+  ticket              ticket               @relation(fields: [ticketId], references: [id]) 
+  accommodation       accommodation        @relation(fields: [accommodationId], references: [id]) 
+  purchase            purchase             @relation(fields: [purchaseId], references: [id])
+  purchaseId          String 
+
 }
 
-model service {
-  id              Int       @id @default(autoincrement())
-  services        Int
-  cost            Decimal   @db.Money()  
-}
+// El paquete turistico tiene las siguientes relaciones
+// touristPackage con customerId  uno a muchos -- un usuario puede tener muchos paquetes pero un paquete solo pertenece a un usuario
+// touristPackage con ticketId uno a muchos -- un ticketId solo puede pertenecer a un paquete y un paquete puede tener solo un ticket
+// touristPackage con accommodationId uno a muchos -- una accommodation puede pertenecer a varios paquetes dependiendo del stock
+// touristPackage con excursionId muchos a muchos -- una excursion puede pertenecer a varios paquetes y un paquete uede teneer varias excusriones (ok)
 
-model type {
-  id              Int       @id @default(autoincrement())
-  name            String
-  detail          String    @db.Text  
-}
+
+
+

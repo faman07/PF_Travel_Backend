@@ -17,6 +17,7 @@ indexRouter.use('/hotel', hotelRouter)
 indexRouter.use('/excursion', excursionRouter)
 indexRouter.use('/ticket', ticketRouter)
 indexRouter.use('/package', packageRouter)
+indexRouter.use('/customer', customerRouter)
 
 
 export {indexRouter}

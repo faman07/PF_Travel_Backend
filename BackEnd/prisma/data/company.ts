@@ -19,3 +19,23 @@ export const companyData: Prisma.companyCreateInput[] = [
     {	name:'Sky Airline (H2)',	contact:'https://www.wego.com/airlines/sky-airline-h2',				},
     {	name:'Iberia (IB)',	contact:'https://www.wego.com/airlines/iberia-ib',				},
 ]
+
+async function main() {
+    console.log(`Start Seeding...`)
+    for (const u of companyData) {
+        const data = await prisma.company.create({
+            data: u,
+        })
+        console.log(`Created service with id: ${data.id}`)
+    }
+}
+
+main()
+    .then(async () => {
+        await prisma.$disconnect()
+    })
+    .catch(async (e) => {
+        console.log(e)
+        await prisma.$disconnect()
+            process.exit(1)        
+    })

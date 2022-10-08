@@ -1,12 +1,20 @@
 import { Router} from "express";
 import { Prisma, PrismaClient } from '@prisma/client'
+import {getTickets} from "../controllers/apicontrollers";
+
 const prisma = new PrismaClient()
-
-
 
 const ticketRouter:Router = Router();
 
-ticketRouter.post('/CreateTicket', async (req, res) => {
+ticketRouter.get('/getTicket', async (req, res) => {
+  try {
+    res.status(200).json(await getTickets(req.query))
+  } catch (e) {
+    res.status(400).json(e)
+  }
+})
+
+ticketRouter.post('/saveTicket', async (req, res) => {
     try {
       res.status(200).json("El Modulo /CreateTicket se encuentra en desarrollo")
     } catch (e) {
@@ -14,7 +22,7 @@ ticketRouter.post('/CreateTicket', async (req, res) => {
     }
   })
 
-  ticketRouter.post('/UpdateTicket', async (req, res) => {
+  ticketRouter.post('/updateTicket', async (req, res) => {
     try {
       res.status(200).json("El Modulo /UpdateTicket se encuentra en desarrollo")
     } catch (e) {
@@ -22,22 +30,12 @@ ticketRouter.post('/CreateTicket', async (req, res) => {
     }
   })
 
-  ticketRouter.get('/Company', async (req, res) => {
+  ticketRouter.post('/deleteTicket', async (req, res) => {
     try {
-      const companies = await prisma.company.findMany()
-      res.status(200).json(companies)
+      res.status(200).json("El Modulo /DeleteTicket se encuentra en desarrollo")
     } catch (e) {
       res.status(400).json(e)
     }
   })
-
-  ticketRouter.get('/Ticket', async (req, res) => {
-    try {
-      res.status(200).json("El Modulo /Ticket se encuentra en desarrollo")
-    } catch (e) {
-      res.status(400).json(e)
-    }
-  })
-
 
 export {ticketRouter}

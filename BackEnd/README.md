@@ -1,25 +1,23 @@
-Para levantar servidor seguir los siguientes pasos:
 
-1. npm install
+- Pasos para dar de alta la base de datos y cargar datos 
 
-Para instalar las dependencias. Luego crear una base de Datos de PostgreSQL y crear un archivo .env con la variable de DATABASE_URL con la ruta y los datos de la base de datos creada
+requisitos:
+tener una cuaanta de base de datos en postgres (La base se genera automaticamente, lo que se necesita es que hata un usuario y conexion a postgres, el usuario debe tener privilegios para crear bases de datos)
+- generar el archivo .env (este se los enviare por sepaarado)
 
-formato `postgresql://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/{DB_NAME}`
+1 - npm install (En la raiz del proyecto /BackEnd)
+2 - npx prisma migrate dev --name init  (Esto para generar la base de datos y la estructura)
+3 - npx prisma migrate reset (Para garantizar que la base quede limpia antes de cargar datos)
+4 - cargar datos en los modelos Base, para que no genere problemas
+   -- npx ts-node prisma/data/service.ts
+   -- npx ts-node prisma/data/customers.ts
+   -- npx ts-node prisma/data/company.ts
+   -- npx ts-node prisma/data/activityType.ts
 
-2. npx prisma migrate dev --name init
+5 - cargar datos en los modelos Compuestos (Estos modelos requieren que hayan datos en algunas de las anteriores tablas)
+   -- npx ts-node prisma/data/activity.ts
+   -- npx ts-node prisma/data/hotel.ts
+   -- npx ts-node prisma/data/ticket.ts
 
-Crea la base de datos nueva. Si arroja un error de conexion es porque falla la url de la base de datos
 
-3. npm run dev
 
-Para iniciar el servidor y empezar a hacer requests en el puerto default 5000
-
-4. npx prisma db seed
-
-Para poblar con la data mock
-
-Otros comandos utiles:
-
-- npx prisma migrate reset
-
-Borra la base de datos y carga la info nuevamente dejando la bd en un estado conocido

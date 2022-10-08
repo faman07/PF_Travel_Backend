@@ -2,6 +2,8 @@ import express from 'express'
 import { PrismaClient } from '@prisma/client'
 import {indexRouter} from './routes/index';
 import passport from 'passport'
+var session = require('express-session');
+
 //import { loginRouter } from "./routes/login"
 import './middlewares/google'
 const port = 5000
@@ -21,15 +23,14 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use('/auth', passport.authenticate("auth-google", {
-  scope: ["https://www.googleapis.com/auth/userinfo.email",
-          "https://www.googleapis.com/auth/userinfo.profile"],
-  session: false,
-}), indexRouter)
+// Middleware de autorizacion
+// app.use('/auth', passport.authenticate("auth-google", {
+//   scope: ["https://www.googleapis.com/auth/userinfo.email",
+//           "https://www.googleapis.com/auth/userinfo.profile"],
+//   session: false,
+// }), indexRouter)
 
-app.use('/authL', indexRouter)
-
-//app.use('/', router)
+app.use('/', indexRouter)
 
 // GET Routes
 
